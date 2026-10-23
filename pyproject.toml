@@ -1,0 +1,5 @@
+[project]
+name = "palmer_penguins"
+version = "0.1.0"
+requires-python = ">= 3.14.8"
+dependencies = []
