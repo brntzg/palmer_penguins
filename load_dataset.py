@@ -3,21 +3,32 @@ import pandas as pd
 from palmerpenguins import load_penguins
 
 
-# This dataset is already prepared for analysis, yet it includes only 8 data fields
-def load_clean_dataset():
+def load_clean_dataset() -> pd.DataFrame:
+    """Load the analysis-ready Palmer Penguins dataset (8 fields)."""
+
     penguins = load_penguins()
-    print("Dataset records, fields:", penguins.shape)
-    print(penguins.columns.tolist())
+
+    print(f"The clean dataset has {len(penguins.index)} records.")
+    print(f"It has {len(penguins.columns)} fields:", penguins.columns.tolist())
+
     return penguins
 
 
-# This dataset includes all 18 data fields, yet it will need to be transformed fro analysis
-def load_raw_dataset():
-    gh_repo = "raw.githubusercontent.com/allisonhorst/palmerpenguins/"
-    csv_file = "main/inst/extdata/penguins_raw.csv"
-    repo_url = "https://" + gh_repo + csv_file
+def load_raw_dataset() -> pd.DataFrame:
+    """Load the original Palmer Penguins dataset (17 fields)."""
 
-    penguins = pd.read_csv(repo_url, parse_dates=["Date Egg"])
-    print("Dataset records, fields:", penguins.shape)
-    print(penguins.columns.tolist())
+    gh_repo_url = (
+        "https://raw.githubusercontent.com/"
+        "allisonhorst/palmerpenguins/main/"
+        "inst/extdata/penguins_raw.csv"
+    )
+
+    penguins = pd.read_csv(
+        gh_repo_url,
+        parse_dates=["Date Egg"]
+    )
+
+    print(f"The raw dataset has {len(penguins.index)} records.")
+    print(f"It has {len(penguins.columns)} fields:", penguins.columns.tolist())
+
     return penguins
