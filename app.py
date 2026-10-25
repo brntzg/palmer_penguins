@@ -3,15 +3,11 @@ import plotly.express as px
 from shiny import App, ui
 from shinywidgets import output_widget, render_widget
 
+from impute_sex import impute_sex
 from load_dataset import load_raw_dataset
 from transform_dataset import transform_raw_dataset
 
-penguins = transform_raw_dataset(load_raw_dataset())
-# Keep missing and unrecognized sex values visible in every view.
-penguins["sex"] = (
-    penguins["sex"].astype("string").str.strip()
-    .map({"female": "Female", "male": "Male"}).fillna("Unknown")
-)
+penguins = impute_sex(transform_raw_dataset(load_raw_dataset()))
 
 variables = {
     "bill_length_mm": "Bill length (mm)",
@@ -103,7 +99,10 @@ def server(input, output, session):
             "color_discrete_map": colors,
             "facet_col": facet_col,
             "category_orders": category_orders,
-            "labels": {**variables, "species": "Penguin species", "sex": "Sex", "island": "Island"},
+            "labels": {
+                **variables, "species": "Penguin species", "sex": "Sex",
+                "island": "Island",
+            },
         }
 
         fig = px.scatter(
